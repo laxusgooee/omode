@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "308381275742",
+    "firebase_url": "https://fcmtest-2fcba.firebaseio.com",
+    "project_id": "fcmtest-2fcba",
+    "storage_bucket": "fcmtest-2fcba.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308381275742:android:ab4c09740dde23979546cf",
+        "android_client_info": {
+          "package_name": "com.laxusgooee.omode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308381275742-t10srufdeogbagmbk837nva0auuvt1b1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw0aA99hdDHBx4qP8CXCuP35g1hjgLqS0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308381275742-t10srufdeogbagmbk837nva0auuvt1b1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "308381275742-25957mosvrhhas4c7uc361jein0g0309.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.laxusgooee.omode"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
