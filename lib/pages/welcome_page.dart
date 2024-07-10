@@ -64,7 +64,7 @@ class WelcomePage extends StatelessWidget {
                           color: Color.fromRGBO(255, 255, 255, 1)
                         ),
                       ),
-                      onPressed: () => context.go('/login'),
+                      onPressed: () => context.go('/auth/login'),
                       material: (context, platform) => MaterialElevatedButtonData(
                         autofocus: true,
                         style: const ButtonStyle(

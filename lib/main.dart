@@ -6,21 +6,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
+import 'package:omode/components/scaffold_bottom_bar.dart';
 import 'package:omode/firebase_options.dart';
 import 'package:go_router/go_router.dart';
 import 'package:omode/pages/home_page.dart';
 import 'package:omode/pages/auth_page.dart';
 import 'package:omode/pages/welcome_page.dart';
 
+final _rootNavigatorKey = GlobalKey<NavigatorState>();
+final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
 final GoRouter _router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
   refreshListenable:
       GoRouterRefreshListenable(FirebaseAuth.instance.authStateChanges()),
   routes: <RouteBase>[
     GoRoute(
-      path: '/',
+      path: '/auth',
       builder: (BuildContext context, GoRouterState state) {
-        return const AuthGate();
+        return const WelcomePage();
       },
       routes: <RouteBase>[
         GoRoute(
@@ -29,8 +33,31 @@ final GoRouter _router = GoRouter(
             return const AuthPage();
           },
         ),
+      ]
+    ),
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) {
+        return ScaffoldBottomBar(child: child);
+      },
+      routes: [
         GoRoute(
-          path: 'profile',
+          path: '/',
+          builder: (BuildContext context, GoRouterState state) {
+            return const HomePage();
+          },
+          routes: <RouteBase>[
+            GoRoute(
+              path: 'details',
+              parentNavigatorKey: _rootNavigatorKey,
+              builder: (BuildContext context, GoRouterState state) {
+                return const Placeholder();
+              },
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/profile',
           builder: (BuildContext context, GoRouterState state) {
             return ProfileScreen(
               appBar: AppBar(
@@ -51,15 +78,15 @@ final GoRouter _router = GoRouter(
             );
           },
         )
-      ]
-    ),
+      ],
+    )
   ],
   redirect: (BuildContext context,GoRouterState state) async {
     final user = FirebaseAuth.instance.currentUser;
 
     const authPaths = [
-      '/',
-      '/login',
+      '/auth',
+      '/auth/login',
     ];
 
     if (user != null) {
@@ -68,7 +95,7 @@ final GoRouter _router = GoRouter(
       }
     } else {
       if (!authPaths.contains(state.fullPath)) {
-        return '/';
+        return '/auth';
       }
     }
 
@@ -96,6 +123,15 @@ class MyApp extends StatelessWidget {
     return PlatformProvider(
       builder: (context) => 
         PlatformTheme(
+          themeMode: ThemeMode.dark,
+          materialDarkTheme: ThemeData(
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.amberAccent,
+              // ···
+              brightness: Brightness.dark,
+            ),
+          ),
           builder: (context) => PlatformApp.router(
             localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
               DefaultMaterialLocalizations.delegate,
@@ -110,23 +146,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-
-class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const WelcomePage();
-        }
-        return const HomePage(title: 'Home Page');
-      },
-    );
-  }
-}
 
 class GoRouterRefreshListenable extends ChangeNotifier {
   GoRouterRefreshListenable(Stream stream) {
@@ -146,3 +165,21 @@ class GoRouterRefreshListenable extends ChangeNotifier {
     super.dispose();
   }
 }
+
+
+// class AuthGate extends StatelessWidget {
+//   const AuthGate({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return StreamBuilder<User?>(
+//       stream: FirebaseAuth.instance.authStateChanges(),
+//       builder: (context, snapshot) {
+//         if (!snapshot.hasData) {
+//           return const WelcomePage();
+//         }
+//         return const HomePage(title: 'Home Page');
+//       },
+//     );
+//   }
+// }
