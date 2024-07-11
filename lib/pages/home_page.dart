@@ -13,74 +13,61 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _tabIndex = 0;
-
-  void _onTabChanged() {
+  void onClicked() {
     print(FirebaseAuth.instance.currentUser);
-    setState(() {
-      _tabIndex++;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(60),
-        child: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Avatar(photo: FirebaseAuth.instance.currentUser?.photoURL)
-            ),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.only(right: 5),
-                child: Icon(
-                  Icons.search,
-                  size: 27,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 5, right: 20),
-                child: Icon(
-                  Icons.segment,
-                  size: 27,
-                ),
-              ),
-            ],
-          ),
-      ),
-      
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        color: Theme.of(context).colorScheme.inversePrimary,
-        child: Column(
+        // color: Theme.of(context).colorScheme.inversePrimary,
+        child: SafeArea(child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Hello',
-                    style: Theme.of(context).textTheme.headlineSmall
-                  ),
-                  Text (
-                    FirebaseAuth.instance.currentUser?.displayName ?? 'Little One',
-                    style: TextStyle(
-                      fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize,
-                      fontWeight: FontWeight.w800
-                    ),
+                  Avatar(photo: FirebaseAuth.instance.currentUser?.photoURL),
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.search,
+                        size: 27,
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.segment,
+                        size: 27,
+                      ),
+                    ],
                   )
                 ],
               ),
             ),
-            Expanded(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Hello',
+                  style: Theme.of(context).textTheme.headlineSmall
+                ),
+                Text (
+                  FirebaseAuth.instance.currentUser?.displayName ?? 'Little One',
+                  style: TextStyle(
+                    fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize,
+                    fontWeight: FontWeight.w800
+                  ),
+                )
+              ],
+            ),
+            const SizedBox(height: 20),
+            Flexible(
               child: GridView.count(
-                shrinkWrap: true,
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
@@ -95,11 +82,11 @@ class _HomePageState extends State<HomePage> {
             )
           ],
         ),
-      ),
+      )),
       floatingActionButton: FloatingActionButton(
           backgroundColor: Colors.red,
-          onPressed: () => _onTabChanged(),
-          child: const Icon(Icons.home),
+          onPressed: () => onClicked(),
+          child: const Icon(Icons.settings),
         ),
     );
   }
