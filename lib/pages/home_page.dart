@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:omode/components/avatar.dart';
 import 'package:omode/components/menu_card.dart';
 
@@ -22,13 +23,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-        // color: Theme.of(context).colorScheme.inversePrimary,
+        color: Theme.of(context).colorScheme.inversePrimary,
         child: SafeArea(child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 30),
+              padding: const EdgeInsets.only(bottom: 30),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -58,10 +59,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Text (
                   FirebaseAuth.instance.currentUser?.displayName ?? 'Little One',
-                  style: TextStyle(
-                    fontSize: Theme.of(context).textTheme.headlineMedium?.fontSize,
-                    fontWeight: FontWeight.w800
-                  ),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800),
                 )
               ],
             ),
@@ -71,8 +69,9 @@ class _HomePageState extends State<HomePage> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
-                children: const [
-                  MenuCard(title: 'Numbers', icon: "lib/assets/images/numbers.png"),
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  MenuCard(title: 'Numbers', icon: "lib/assets/images/numbers.png", onPressed: () => context.go('/numbers'),),
                   MenuCard(title: 'Letters', icon: "lib/assets/images/letters.png"),
                   MenuCard(title: 'Shapes', icon: "lib/assets/images/shapes.png"),
                   MenuCard(title: 'Animals', icon: "lib/assets/images/animals.png"),

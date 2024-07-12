@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:go_router/go_router.dart';
 import 'package:omode/pages/home_page.dart';
 import 'package:omode/pages/auth_page.dart';
+import 'package:omode/pages/numbers_page.dart';
 import 'package:omode/pages/welcome_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -36,10 +37,9 @@ class AppRouter {
         },
         routes: <RouteBase>[
           GoRoute(
-            path: 'details',
-            parentNavigatorKey: _rootNavigatorKey,
+            path: 'numbers',
             builder: (BuildContext context, GoRouterState state) {
-              return const Placeholder();
+              return const NumbersPage();
             },
           ),
         ],
