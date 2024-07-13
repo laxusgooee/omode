@@ -1,18 +1,22 @@
-import 'dart:ffi';
+import 'dart:math';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class NumbersPage extends StatefulWidget {
-  NumbersPage({super.key});
+  final AudioPlayer player = AudioPlayer();
 
-  final List choice =  List.generate(10, (index) => index + 1);
+  NumbersPage({super.key}) {
+    player.audioCache.prefix = '';
+  }
 
   @override
   State<NumbersPage> createState() => _NumbersPageState();
 }
 
 class _NumbersPageState extends State<NumbersPage> {
+  int seed = 0;
   
   @override
   Widget build(BuildContext context) {
@@ -33,12 +37,9 @@ class _NumbersPageState extends State<NumbersPage> {
                     Row(
                       //padding: const EdgeInsets.only(bottom: 30),
                       children: [
-                        SizedBox(
-                          child: IconButton(
-                            iconSize: 35,
-                            icon: const Icon(Icons.arrow_back),
-                            onPressed: () => context.pop(),
-                          ),
+                        GestureDetector(
+                          child: const Icon(Icons.arrow_back, size: 35, color: Colors.black),
+                          onTap: () => context.pop(),
                         )
                       ],
                     ),
@@ -49,16 +50,58 @@ class _NumbersPageState extends State<NumbersPage> {
                     ),
                     const SizedBox(height: 15),
                     Text(
-                      'lorem ipsium dolor et marimus valur ceter, cet urirum colom vartor',
+                      'Match the correct number by placing it on the screen',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.black45),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: NumberDisplay(number: 4),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: NumberDisplay(
+                          number: seed+1,
+                          onCorrect: () async {
+                            widget.player.play(AssetSource('lib/assets/sounds/right.mp3'));
+                            
+                            if (seed >= 9) {
+                              return showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => Dialog(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      const SizedBox(height: 15),
+                                      Text('Yay!', style: Theme.of(context).textTheme.headlineLarge),
+                                      const SizedBox(height: 25),
+                                      Text('You got all the numbers', style: Theme.of(context).textTheme.titleMedium,),
+                                      const SizedBox(height: 10),
+                                      TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            seed = 0;
+                                          });
+                                          Navigator.pop(context);
+                                        },
+                                        style: ButtonStyle(
+                                          minimumSize: WidgetStateProperty.all(const Size(150, 12)),
+                                          foregroundColor: WidgetStateProperty.all(Colors.white),
+                                          backgroundColor: WidgetStateProperty.all(Theme.of(context).colorScheme.primary)
+                                        ),
+                                        child: const Text('Start again'),
+                                      ),
+                                      const SizedBox(height: 15),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }
+                            
+                            setState(() {
+                              seed++;
+                            });
+                          }
+                        ),
                       )
                     ),
-
                   ],
                 ),
               ),
@@ -77,11 +120,8 @@ class _NumbersPageState extends State<NumbersPage> {
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                   children: List.generate(10, (index) {
-                    return TextButton(
-                      child: Number(number: index + 1,),
-                      onPressed: () => print(index + 1),
-                    );
-                  }),
+                    return Number(number: index + 1,);
+                  })..shuffle(Random(seed)),
                 ),
               ),
             )
@@ -89,6 +129,13 @@ class _NumbersPageState extends State<NumbersPage> {
         )
       )
     );
+  }
+
+  @override
+  void dispose() {
+    widget.player.dispose();
+    
+    super.dispose();
   }
 }
 
@@ -98,32 +145,42 @@ class Number extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Center numberImage = Center(
-      child: Image(
-        image: AssetImage('lib/assets/images/numbers/$number-bw.png'),
-        fit: BoxFit.contain
-      ),
-    );
-    
     return Draggable<int>(
       data: number,
-      feedback: Center(
+      feedback: Container(
+        transform: Matrix4.translationValues(-25.0, -35.0, 0.0),
         child: Image(
           image: AssetImage('lib/assets/images/numbers/$number.png'),
-          width: 90,
+          width: 150,
           fit: BoxFit.contain
         ),
       ),
-      childWhenDragging: numberImage,
-      child: numberImage,
+      childWhenDragging: Center(
+        child: Image(
+          image: AssetImage('lib/assets/images/numbers/$number-bw.png'),
+          width: 38,
+          fit: BoxFit.contain
+        ),
+      ),
+      child: Container(
+        color: Colors.white,
+        child: Center(
+          child: Image(
+            image: AssetImage('lib/assets/images/numbers/$number.png'),
+            fit: BoxFit.contain,
+            width: 38,
+          ),
+        ),
+      ),
     );
   }
 }
 
 class NumberDisplay extends StatelessWidget {
   final int number;
+  final Function()? onCorrect;
 
-  const NumberDisplay({super.key, required this.number});
+  const NumberDisplay({super.key, required this.number, this.onCorrect});
 
   @override
   Widget build(BuildContext context) {
@@ -136,17 +193,17 @@ class NumberDisplay extends StatelessWidget {
         return Center(
           child: Image(
             image: AssetImage('lib/assets/images/numbers/$number.png'),
-            fit: BoxFit.contain
+            fit: BoxFit.contain,
+            width: 320,
           ),
         );
       },
       onWillAcceptWithDetails: (DragTargetDetails<int> details) => details.data == number,
       onAcceptWithDetails: (DragTargetDetails<int> details) {
-        print(details.data);
-      },
-      onLeave: (data) {
-        print('rejected: $data');
-      },
+        if (onCorrect != null) {
+          onCorrect!();
+        }
+      }
     );
   }
 }

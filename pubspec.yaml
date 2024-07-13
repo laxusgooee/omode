@@ -42,6 +42,7 @@ dependencies:
   get_it: ^7.7.0
   bloc: ^8.1.4
   flutter_bloc: ^8.1.6
+  audioplayers: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - lib/assets/sounds/right.mp3
+    - lib/assets/sounds/wrong.mp3
     - lib/assets/images/welcome.jpg
     - lib/assets/images/numbers.png
     - lib/assets/images/animals.png
