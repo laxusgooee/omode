@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:omode/components/avatar.dart';
 import 'package:omode/components/menu_card.dart';
 
-
 class HomePage extends StatefulWidget {
   final String? photo;
   HomePage({super.key}): photo = FirebaseAuth.instance.currentUser?.photoURL;

@@ -1,9 +1,12 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-
 class NumbersPage extends StatefulWidget {
-  const NumbersPage({super.key});
+  NumbersPage({super.key});
+
+  final List choice =  List.generate(10, (index) => index + 1);
 
   @override
   State<NumbersPage> createState() => _NumbersPageState();
@@ -52,6 +55,7 @@ class _NumbersPageState extends State<NumbersPage> {
                     const Expanded(
                       child: Padding(
                         padding: EdgeInsets.symmetric(vertical: 10),
+                        child: NumberDisplay(number: 4),
                       )
                     ),
 
@@ -74,10 +78,7 @@ class _NumbersPageState extends State<NumbersPage> {
                   mainAxisSpacing: 5,
                   children: List.generate(10, (index) {
                     return TextButton(
-                      child: Text(
-                        '$index',
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
+                      child: Number(number: index + 1,),
                       onPressed: () => print(index + 1),
                     );
                   }),
@@ -87,6 +88,65 @@ class _NumbersPageState extends State<NumbersPage> {
           ],
         )
       )
+    );
+  }
+}
+
+class Number extends StatelessWidget {
+  const Number({super.key, required this.number});
+  final int number;
+
+  @override
+  Widget build(BuildContext context) {
+    Center numberImage = Center(
+      child: Image(
+        image: AssetImage('lib/assets/images/numbers/$number-bw.png'),
+        fit: BoxFit.contain
+      ),
+    );
+    
+    return Draggable<int>(
+      data: number,
+      feedback: Center(
+        child: Image(
+          image: AssetImage('lib/assets/images/numbers/$number.png'),
+          width: 90,
+          fit: BoxFit.contain
+        ),
+      ),
+      childWhenDragging: numberImage,
+      child: numberImage,
+    );
+  }
+}
+
+class NumberDisplay extends StatelessWidget {
+  final int number;
+
+  const NumberDisplay({super.key, required this.number});
+
+  @override
+  Widget build(BuildContext context) {
+    return DragTarget<int>(
+      builder: (
+        BuildContext context,
+        List<dynamic> accepted,
+        List<dynamic> rejected,
+      ) {
+        return Center(
+          child: Image(
+            image: AssetImage('lib/assets/images/numbers/$number.png'),
+            fit: BoxFit.contain
+          ),
+        );
+      },
+      onWillAcceptWithDetails: (DragTargetDetails<int> details) => details.data == number,
+      onAcceptWithDetails: (DragTargetDetails<int> details) {
+        print(details.data);
+      },
+      onLeave: (data) {
+        print('rejected: $data');
+      },
     );
   }
 }

@@ -74,6 +74,26 @@ flutter:
     - lib/assets/images/letters.png
     - lib/assets/images/colors.png
     - lib/assets/images/shapes.png
+    - lib/assets/images/numbers/1.png
+    - lib/assets/images/numbers/1-bw.png
+    - lib/assets/images/numbers/2.png
+    - lib/assets/images/numbers/2-bw.png
+    - lib/assets/images/numbers/3.png
+    - lib/assets/images/numbers/3-bw.png
+    - lib/assets/images/numbers/4.png
+    - lib/assets/images/numbers/4-bw.png
+    - lib/assets/images/numbers/5.png
+    - lib/assets/images/numbers/5-bw.png
+    - lib/assets/images/numbers/6.png
+    - lib/assets/images/numbers/6-bw.png
+    - lib/assets/images/numbers/7.png
+    - lib/assets/images/numbers/7-bw.png
+    - lib/assets/images/numbers/8.png
+    - lib/assets/images/numbers/8-bw.png
+    - lib/assets/images/numbers/9.png
+    - lib/assets/images/numbers/9-bw.png
+    - lib/assets/images/numbers/10.png
+    - lib/assets/images/numbers/10-bw.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

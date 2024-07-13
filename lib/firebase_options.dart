@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:omode/constants.dart' as Constants;
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -41,7 +42,7 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: '', // todo: use const
+    apiKey: Constants.FIREBASE_API_KEY_WEB,
     appId: '1:308381275742:web:05c48c2350a68b859546cf',
     messagingSenderId: '308381275742',
     projectId: 'fcmtest-2fcba',
@@ -51,7 +52,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: '', // todo: use const
+    apiKey: Constants.FIREBASE_API_KEY_ANDROID,
     appId: '1:308381275742:android:ab4c09740dde23979546cf',
     messagingSenderId: '308381275742',
     projectId: 'fcmtest-2fcba',
@@ -60,7 +61,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: '', // todo: use const
+    apiKey: Constants.FIREBASE_API_KEY_IOS,
     appId: '1:308381275742:ios:0a6ea7808399e5a39546cf',
     messagingSenderId: '308381275742',
     projectId: 'fcmtest-2fcba',
@@ -71,7 +72,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: '', // todo: use const
+    apiKey: Constants.FIREBASE_API_KEY_MACOS,
     appId: '1:308381275742:ios:0a6ea7808399e5a39546cf',
     messagingSenderId: '308381275742',
     projectId: 'fcmtest-2fcba',
@@ -82,7 +83,7 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: '', // todo: use const
+    apiKey: Constants.FIREBASE_API_KEY_WINDOWS,
     appId: '1:308381275742:web:c722eb83585c79d09546cf',
     messagingSenderId: '308381275742',
     projectId: 'fcmtest-2fcba',
