@@ -70,8 +70,8 @@ class _HomePageState extends State<HomePage> {
                 mainAxisSpacing: 10,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  MenuCard(title: 'Numbers', icon: "lib/assets/images/numbers.png", onPressed: () => context.go('/numbers'),),
-                  MenuCard(title: 'Letters', icon: "lib/assets/images/letters.png"),
+                  MenuCard(title: 'Numbers', icon: "lib/assets/images/numbers.png", onPressed: () => context.go('/numbers')),
+                  MenuCard(title: 'Letters', icon: "lib/assets/images/letters.png", onPressed: () => context.go('/alphabets')),
                   MenuCard(title: 'Shapes', icon: "lib/assets/images/shapes.png"),
                   MenuCard(title: 'Animals', icon: "lib/assets/images/animals.png"),
                   MenuCard(title: 'Colors', icon: "lib/assets/images/colors.png"),

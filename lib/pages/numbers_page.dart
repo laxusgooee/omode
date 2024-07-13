@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:omode/components/menu_back_button.dart';
 
 class NumbersPage extends StatefulWidget {
   final AudioPlayer player = AudioPlayer();
@@ -34,13 +35,9 @@ class _NumbersPageState extends State<NumbersPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Row(
-                      //padding: const EdgeInsets.only(bottom: 30),
+                    const Row(
                       children: [
-                        GestureDetector(
-                          child: const Icon(Icons.arrow_back, size: 35, color: Colors.black),
-                          onTap: () => context.pop(),
-                        )
+                        MenuBackButton()
                       ],
                     ),
                     const SizedBox(height: 10),

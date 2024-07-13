@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:go_router/go_router.dart';
+import 'package:omode/pages/alphabets_page.dart';
 import 'package:omode/pages/home_page.dart';
 import 'package:omode/pages/auth_page.dart';
 import 'package:omode/pages/numbers_page.dart';
@@ -40,6 +41,12 @@ class AppRouter {
             path: 'numbers',
             builder: (BuildContext context, GoRouterState state) {
               return NumbersPage();
+            },
+          ),
+          GoRoute(
+            path: 'alphabets',
+            builder: (BuildContext context, GoRouterState state) {
+              return AlphabetsPage();
             },
           ),
         ],
