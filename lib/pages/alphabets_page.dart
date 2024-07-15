@@ -4,6 +4,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:omode/components/menu_back_button.dart';
 
+const String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 class AlphabetsPage extends StatefulWidget {
   final AudioPlayer player = AudioPlayer();
 
@@ -17,8 +18,6 @@ class AlphabetsPage extends StatefulWidget {
 
 class _AlphabetsPageState extends State<AlphabetsPage> {
   int seed = 0;
-
-  final String LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   
   @override
   Widget build(BuildContext context) {
@@ -65,7 +64,7 @@ class _AlphabetsPageState extends State<AlphabetsPage> {
                 crossAxisCount: 2,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,
-                children: List.generate(26, (index) {
+                children: List.generate(LETTERS.length, (index) {
                   return Center(
                     child: Text(LETTERS[index]),
                   );

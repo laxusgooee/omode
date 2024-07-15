@@ -7,6 +7,7 @@ import 'package:omode/pages/alphabets_page.dart';
 import 'package:omode/pages/home_page.dart';
 import 'package:omode/pages/auth_page.dart';
 import 'package:omode/pages/numbers_page.dart';
+import 'package:omode/pages/shapes_page.dart';
 import 'package:omode/pages/welcome_page.dart';
 
 final _rootNavigatorKey = GlobalKey<NavigatorState>();
@@ -47,6 +48,12 @@ class AppRouter {
             path: 'alphabets',
             builder: (BuildContext context, GoRouterState state) {
               return AlphabetsPage();
+            },
+          ),
+          GoRoute(
+            path: 'shapes',
+            builder: (BuildContext context, GoRouterState state) {
+              return ShapesPage();
             },
           ),
         ],
